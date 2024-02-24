@@ -1,4 +1,4 @@
-# Klipper Conig
+# Klipper Config
 
 A set of portable Klipper configuration snippets shared between my machines.
 
