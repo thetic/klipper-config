@@ -13,31 +13,31 @@ ln -s ~/klipper-config printer_data/config/config
 In `moonraker.conf`:
 
 ```
-[include config/moonraker.conf]
+[include config/moonraker/*.conf]
 ```
 
 In `printer.cfg`:
 
 ```
-[include config/*.cfg]
+[include config/klipper/*.cfg]
 ```
 
 In `KlipperScreen.conf`:
 
 ```
-[include config/KlipperScreen.conf]
+[include config/KlipperScreen/*.conf]
 ```
 
 ## Configuration
 
-Optional configuration is found in the `feature/` directory.
+Optional configuration snippets are found in the `feature/` directories.
 These snippets are typically incomplete.
 Machine-specific options will need to be added to the `printer.cfg`
 
 For example,
 
 ```
-[include config/feature/beeper.cfg]
+[include config/klipper/feature/beeper.cfg]
 
 [output_pin _beeper]
 pin: EXP1_1
