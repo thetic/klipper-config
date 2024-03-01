@@ -16,36 +16,40 @@ mainsail_folder=~/mainsail
 # The branch of the repository that you want to save your config
 branch=main
 
-grab_version(){
-  if [ ! -z "$klipper_folder" ]; then
-    cd "$klipper_folder"
-    klipper_commit=$(git rev-parse --short=7 HEAD)
-    m1="Klipper on commit: $klipper_commit"
-    cd ..
-  fi
-  if [ ! -z "$moonraker_folder" ]; then
-    cd "$moonraker_folder"
-    moonraker_commit=$(git rev-parse --short=7 HEAD)
-    m2="Moonraker on commit: $moonraker_commit"
-    cd ..
-  fi
-  if [ ! -z "$mainsail_folder" ]; then
-    mainsail_ver=$(head -n 1 $mainsail_folder/.version)
-    m3="Mainsail version: $mainsail_ver"
-  fi
-  if [ ! -z "$fluidd_folder" ]; then
-    fluidd_ver=$(head -n 1 $fluidd_folder/.version)
-    m4="Fluidd version: $fluidd_ver"
-  fi
+grab_version() {
+    if [ ! -z "$klipper_folder" ]; then
+        klipper_commit=$(git -C "$klipper_folder" rev-parse --short=7 HEAD)
+        m1="Klipper on commit: $klipper_commit"
+    fi
+    if [ ! -z "$moonraker_folder" ]; then
+        moonraker_commit=$(git -C "$moonraker_folder" rev-parse --short=7 HEAD)
+        m2="Moonraker on commit: $moonraker_commit"
+    fi
+    if [ ! -z "$mainsail_folder" ]; then
+        mainsail_ver=$(head -n 1 $mainsail_folder/.version)
+        m3="Mainsail version: $mainsail_ver"
+    fi
+    if [ ! -z "$fluidd_folder" ]; then
+        fluidd_ver=$(head -n 1 $fluidd_folder/.version)
+        m4="Fluidd version: $fluidd_ver"
+    fi
+    script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
+    repo_ver=$(git -C "$script_dir" rev-parse --short=7 HEAD)
+    m5="klipper-config version: $repo_ver"
 }
 
-push_config(){
-  cd $config_folder
-  git pull origin $branch --no-rebase
-  git add .
-  current_date=$(date +"%Y-%m-%d %T")
-  git commit -m "Autocommit from $current_date" -m "$m1" -m "$m2" -m "$m3" -m "$m4"
-  git push origin $branch
+push_config() {
+    git -C "$config_folder" pull origin $branch --no-rebase
+    git -C "$config_folder" add .
+    current_date=$(date +"%Y-%m-%d %T")
+    git -C "$config_folder" commit \
+        -m "Autocommit from $current_date" \
+        -m "$m1" \
+        -m "$m2" \
+        -m "$m3" \
+        -m "$m4" \
+        -m "$m5"
+    git -C "$config_folder" push origin $branch
 }
 
 grab_version
