@@ -12,19 +12,19 @@ ln -s ~/klipper-config printer_data/config/config
 
 In `moonraker.conf`:
 
-```
+```ini
 [include config/moonraker/*.conf]
 ```
 
 In `printer.cfg`:
 
-```
+```ini
 [include config/klipper/*.cfg]
 ```
 
 In `KlipperScreen.conf`:
 
-```
+```ini
 [include config/KlipperScreen/*.conf]
 ```
 
@@ -36,9 +36,9 @@ Machine-specific options will need to be added to the `printer.cfg`
 
 For example,
 
-```
+```ini
 [include config/klipper/feature/beeper.cfg]
 
-[output_pin _beeper]
+[pwm_cycle_time _beeper]
 pin: EXP1_1
 ```
